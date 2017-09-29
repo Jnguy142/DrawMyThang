@@ -40,9 +40,8 @@ class Login extends Component {
             uid: result.user.uid,
           }
           if (!result.user.displayName) {
-            user_id.displayName = result.user.uid;
+            user_id.displayName = user_id.uid;
           }
-          console.log('what is props ', this.state);
           this.setState({
             user: user_id,
           });
