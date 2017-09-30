@@ -81,7 +81,7 @@ class App extends React.Component {
             <div className="main-content"  >
               <div className="workspace" >
                 <Route path="/login" render={() => <Login state={this.state} />} />
-                <Route path="/logout" render={() => <Logout state={this.state} />} />
+                <Route path="/logout" render={() => <Logout state={this.state} auth_user={this.state.user}/>} />
               </div>
             </div>
           </div>
