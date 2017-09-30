@@ -93,10 +93,10 @@ class App extends React.Component {
         </section>
       <div id="wordCanvasDisplay">
         <div id="timerWordDisplay">
-          <GamePlayTimer socket={this.state.socket}/>
+          <GamePlayTimer socket={this.state.socket} />
           <Worddisplay socket={this.state.socket} uid={this.state.user.uid} />
         </div>
-          <Canvas socket={this.state.socket} uid={this.state.user.uid}/>
+          <Canvas socket={this.state.socket} uid={this.state.user.uid} />
         </div>
       </div>
       <CanvasColors/>
