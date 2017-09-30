@@ -1,15 +1,10 @@
 import { Spinner } from '@blueprintjs/core';
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import socket from 'socket.io-client';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+import Gameinstance from './Gameinstance.jsx';
 import Header from './Header.jsx';
 import Login from './Login.jsx';
 import Logout from './Logout.jsx';
-import ChatBox from './chatBox.jsx';
-import Canvas from './canvas.jsx';
-import UserBox from './userBox.jsx';
-import GamePlayTimer from './gamePlayTimer.jsx';
-import Worddisplay from './Worddisplay.jsx';
 import { app, base, githubProvider } from '../../env/base.jsx';
 
 class App extends React.Component {
@@ -96,6 +91,7 @@ class App extends React.Component {
           <Canvas socket={this.state.socket} uid={this.state.user.uid} />
         </div>
       </div>
+    </div>
     );
   }
 }
