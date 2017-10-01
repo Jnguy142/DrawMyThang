@@ -2,14 +2,20 @@ import React from 'react';
 import socket from 'socket.io-client';
 
 class Canvas extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      isArtist: false,
+    }
     this.drawLine = this.drawLine.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onDrawingEvent = this.onDrawingEvent.bind(this);
     this.throttle = this.throttle.bind(this);
+    this.isArtist = this.isArtist.bind(this);
+    this.wipeCanvas = this.wipeCanvas.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -23,14 +29,24 @@ class Canvas extends React.Component {
     this.enableDraw = false;
     this.currentPos = {};
 
-    this.canvas.addEventListener('mousemove', this.throttle(this.onMouseMove, 50), false);
+    this.canvas.addEventListener('mousemove', this.throttle(this.onMouseMove, 10), false);
     this.canvas.addEventListener('mousedown', this.onMouseDown, false);
     this.canvas.addEventListener('mouseup', this.onMouseUp, false);
     this.props.socket.on('drawing', this.onDrawingEvent);
+    this.props.socket.on('choose artist', this.isArtist);
+    this.props.socket.on('clear canvas', this.wipeCanvas);
   }
 
-  drawLine(x0, y0, x1, y1, emit) {
-    
+  isArtist(uid) {
+    if (uid === this.props.uid) {
+      this.state.isArtist = true;
+    } else {
+      this.state.isArtist = false;
+    }
+    this.enableDraw = false;
+  }
+
+  drawLine(x0, y0, x1, y1, emit) {  
     this.context.beginPath();
     this.context.moveTo(x0, y0);
     this.context.lineTo(x1, y1);
@@ -48,6 +64,11 @@ class Canvas extends React.Component {
     }
   }
 
+  wipeCanvas() {
+    this.context.clearRect(0, 0, this.context.canvas.width
+      ,this.context.canvas.height)
+  }
+
   onMouseDown(e) {
     this.currentPos.x = e.clientX;
     this.enableDraw = true;
@@ -55,7 +76,7 @@ class Canvas extends React.Component {
   }
 
   onMouseUp(e) {
-    if (this.enableDraw) { 
+    if (this.enableDraw && this.state.isArtist) { 
       this.enableDraw = false;
       this.drawLine(this.currentPos.x - this.leftOffSet, this.currentPos.y - this.topOffSet
       , e.clientX - this.leftOffSet, e.clientY - this.topOffSet);
@@ -63,7 +84,7 @@ class Canvas extends React.Component {
   }
 
   onMouseMove(e) {
-    if (this.enableDraw) {
+    if (this.enableDraw && this.state.isArtist) {
       this.drawLine(this.currentPos.x - this.leftOffSet, this.currentPos.y - this.topOffSet
       , e.clientX - this.leftOffSet, e.clientY - this.topOffSet, true);
       this.currentPos.x = e.clientX;
@@ -74,6 +95,10 @@ class Canvas extends React.Component {
   onDrawingEvent(data) {
     this.drawLine(data.x0, data.y0, data.x1, data.y1);
   }
+
+  // handleClick() {
+  //   this.props.socket.emit('choose artist');
+  // }
 
   throttle(callback, delay) {
     let previousCall = new Date().getTime();

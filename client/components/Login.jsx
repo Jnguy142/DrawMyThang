@@ -33,12 +33,15 @@ class Login extends Component {
             intent: Intent.DANGER, message: "Unable to login with Github" 
           });
         } else {
+          console.log(result, 'authWithGithub')
           const user_id = { 
             displayName: result.user.displayName,
             photourl: result.user.photoURL,
             uid: result.user.uid,
           }
-          console.log('what is props ', this.state);
+          if (!result.user.displayName) {
+            user_id.displayName = user_id.uid;
+          }
           this.setState({
             user: user_id,
           });

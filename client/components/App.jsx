@@ -1,14 +1,11 @@
 import { Spinner } from '@blueprintjs/core';
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 import Header from './Header.jsx';
 import Login from './Login.jsx';
 import Logout from './Logout.jsx';
-import ChatBox from './chatBox.jsx';
-import Canvas from './canvas.jsx';
-import UserBox from './userBox.jsx';
-import GamePlayTimer from './gamePlayTimer.jsx'
-import { app, base } from '../../env/base.jsx';
+import Homepage from './Homepage.jsx';
+import { app, base, githubProvider } from '../../env/base.jsx';
 import socket from 'socket.io-client';
 
 //import openSocket from 'socket.io-client';
@@ -22,6 +19,7 @@ class App extends React.Component {
         photoURL: null,
         uid: '',
       },
+
       authenticated: false,
       loading: true,
       socket: socket('http://localhost:8080'),
@@ -71,27 +69,20 @@ class App extends React.Component {
     }
 
     return (
-      <div>
+      <div id='firstDiv'>
         <BrowserRouter>
           <div>
             <Header authenticated={this.state.authenticated} />
-            <div className="main-content" style={{padding: "1rem"}} >
+            <div className="main-content"  >
               <div className="workspace" >
                 <Route path="/login" render={() => <Login state={this.state} />} />
-                <Route path="/logout" render={() => <Logout state={this.state} />} />
+                <Route path="/logout" render={() => <Logout state={this.state} auth_user={this.state.user}/>} />
               </div>
             </div>
           </div>
         </BrowserRouter>
-        <GamePlayTimer socket={this.state.socket}/>
-      <div id="whole">
-        <section className="sidebar">
-          <UserBox socket={this.state.socket} />
-          <ChatBox socket={this.state.socket} auth_user={this.state.user} />
-        </section>
-        <Canvas socket={this.state.socket}/>
-      </div>
-      </div>
+        <Homepage state={this.state} />
+    </div>
     );
   }
 }
