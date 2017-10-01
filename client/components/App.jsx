@@ -1,10 +1,10 @@
 import { Spinner } from '@blueprintjs/core';
 import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import Gameinstance from './Gameinstance.jsx';
 import Header from './Header.jsx';
 import Login from './Login.jsx';
 import Logout from './Logout.jsx';
+import Homepage from './Homepage.jsx';
 import { app, base, githubProvider } from '../../env/base.jsx';
 import socket from 'socket.io-client';
 
@@ -81,19 +81,7 @@ class App extends React.Component {
             </div>
           </div>
         </BrowserRouter>
-      <div id="whole">
-        <section className="sidebar">
-          <UserBox socket={this.state.socket} />
-          <ChatBox socket={this.state.socket} auth_user={this.state.user} />
-        </section>
-      <div id="wordCanvasDisplay">
-        <div id="timerWordDisplay">
-          <GamePlayTimer socket={this.state.socket} />
-          <Worddisplay socket={this.state.socket} uid={this.state.user.uid} />
-        </div>
-          <Canvas socket={this.state.socket} uid={this.state.user.uid} />
-        </div>
-      </div>
+        <Homepage state={this.state} />
     </div>
     );
   }
