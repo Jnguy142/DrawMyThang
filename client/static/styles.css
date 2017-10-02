@@ -70,6 +70,11 @@ li a:hover {
 	margin: 0;
 }
 
+.whiteboard {
+  height: 100%;
+  width: 100%;
+}
+
 #draw-comp {
 	margin: 0;
 	border: solid black 2px;
@@ -221,28 +226,21 @@ li a:hover {
 	background: #eee; 
 }
 
-#canvasColors{
+.colors {
 	display: flex;
 	position:absolute;
   bottom:0;
   right:0;
-  height: 5.5em;
+  height: 5em;
   width: 30em;
-}
-
-#changeColor {
-	flex: .3;
-	margin-left: auto;
-  margin-right: auto;
-	position: relative;
-  top: 50%;
-  transform: translateY(-50%); 
 }
 
 .color {
 	flex: 1;
-	cursor: pointer;
-	border-radius: 100%;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+	border-radius: 50%;
 }
 
 .red{
@@ -278,3 +276,22 @@ li a:hover {
 	opacity: .5;
 }
 
+.green{
+	background-color: green;
+}
+
+.green:hover{
+	opacity: .5;
+}
+
+.clear{
+  background-color:#fff;
+  border: 0.1rem solid black;
+  font-size: 1rem;
+  line-height: 4em;
+  text-align: center;
+}
+
+.clear:hover{
+  opacity: .5;
+}
