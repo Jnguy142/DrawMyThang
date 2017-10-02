@@ -1,10 +1,11 @@
 import { Spinner } from '@blueprintjs/core';
 import React from 'react';
+import socket from 'socket.io-client';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import Header from './Header.jsx';
 import Login from './Login.jsx';
 import Logout from './Logout.jsx';
-import Homepage from './Homepage.jsx';
+import Navibar from './Navibar.jsx';
 import { app, base, githubProvider } from '../../env/base.jsx';
 
 class App extends React.Component {
@@ -78,7 +79,7 @@ class App extends React.Component {
             </div>
           </div>
         </BrowserRouter>
-        <Homepage state={this.state} />
+        <Navibar state={this.state} />
     </div>
     );
   }
